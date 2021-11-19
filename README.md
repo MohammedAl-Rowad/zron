@@ -4,7 +4,7 @@ A teal time collaborative whiteboard, built with [nestjs](https://nestjs.com/), 
 
 This app supports authentication [JWT](https://jwt.io/) and sharable rooms
 
-<img src="thumb.png">
+<img src="new-thumb.png">
 
 
 # How to install 
