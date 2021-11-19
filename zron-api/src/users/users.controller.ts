@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './createuser.dto';
 import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
+import { hash } from 'bcrypt';
 import { UserTransformer } from './user.transformer';
 
 @Controller('users')
@@ -21,12 +21,12 @@ export class UsersController {
   ) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<any> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserTransformer> {
     const saltOrRounds = 10;
-    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
+    const hashStr = await hash(createUserDto.password, saltOrRounds);
     const userInstance: User = await this.usersRepository.save<Partial<User>>({
       ...createUserDto,
-      password: hash,
+      password: hashStr,
     });
     return new UserTransformer(userInstance);
   }
